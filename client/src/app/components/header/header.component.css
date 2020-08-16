@@ -1,0 +1,73 @@
+html, body {
+  background-color: grey;
+}
+
+.navbar {
+  border: 3px solid cornflowerblue;
+  background: white;
+  padding: 10px;
+  margin: 10px;
+  cursor: pointer;
+  border-radius: 20px;
+}
+
+.col-sm {
+  border: 1px solid white;
+  background: cornflowerblue;
+  padding: 10px;
+  margin: 10px;
+  cursor: pointer;
+  border-radius: 20px;
+}
+
+.nav-link {
+  color: black;
+}
+
+/* Small devices (small phones) */
+@media only screen and (min-width: 0px) {
+  .col-sm {
+    height: 50px;
+  }
+}
+
+/* Small devices (portrait tablets and large phones) */
+@media only screen and (min-width: 480px) {
+  .col-sm {
+    height: 200px;
+  }
+}
+
+/* Medium devices (landscape tablets) */
+@media only screen and (min-width: 768px) {
+  .col-sm {
+    height: 300px;
+  }
+}
+
+/* Extra large devices (large laptops and desktops) */
+@media only screen and (min-width: 1024px) {
+  .col-sm {
+    height: 420px;
+  }
+}
+
+.Notification {
+  color: yellow;
+}
+
+/* .navbar-toggler-icon { */
+  /* background-color: black; */
+/* } */
+
+.fa-1x {
+  font-size: 5rem;
+}
+
+.navbar-toggler.toggler-example {
+  cursor: pointer;
+}
+
+.dark-blue-text {
+  color: #0A38F5;
+}

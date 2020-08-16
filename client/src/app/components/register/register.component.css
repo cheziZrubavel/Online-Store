@@ -1,0 +1,10 @@
+.submitErr {
+  color: red;
+  font-weight: bold;
+}
+
+form {
+  border: 2px solid cornflowerblue;
+  padding: 10px;
+  border-radius: 20px;
+}

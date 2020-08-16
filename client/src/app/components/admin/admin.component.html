@@ -1,0 +1,151 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-light border-right" id="sidebar-wrapper">
+          <button id="" class="btn btn-primary" (click)="this.showEditForm = !this.showEditForm">Add/Edit
+            Product</button><br><br>
+          <form *ngIf="!showEditForm" (ngSubmit)="addNew()" [formGroup]="addProductForm">
+            <h3>Add product:</h3><br>
+            <input type="text" formControlName="name" placeholder="product name"><br><br>
+            <input type="text" formControlName="id" placeholder="product id"><br><br>
+            <input type="text" formControlName="price" placeholder="product price"><br><br>
+            Image: <input type="file" (change)="uploadImage($event)" formControlName="image" name="image"
+              placeholder="product image"><br><br>
+            <select name="" [(ngModel)]='nrSelect' formControlName="category" id="">
+              <option value="5ef8636cd61ec32ac0e71990">Meat & Fishes</option>
+              <option value="5ef8638fd61ec32ac0e71996">Wine & Drinks</option>
+              <option value="5ef86351d61ec32ac0e71986">Vegetables & Fruits</option>
+              <option value="5ef86303d61ec32ac0e71960">Milk & Eggs</option>
+            </select>
+            <br><br>
+            <button class="btn btn-primary">Save</button>
+          </form>
+          <form *ngIf="showEditForm" (ngSubmit)="editProduct()" [formGroup]="editProductForm">
+            <h3>Edit product:</h3><br>
+            <input type="text" formControlName="name" [(ngModel)]="productDetails.productName"><br><br>
+            <input type="text" formControlName="id" [(ngModel)]="productDetails._id"><br><br>
+            <input type="text" formControlName="price" [(ngModel)]="productDetails.price"><br><br>
+            Image: <input type="file" (change)="uploadImage($event)" formControlName="image" name="image"
+              title={{this.productDetails.image}}><br><br>
+            <select name="" [(ngModel)]='this.productDetails.categoryId' formControlName="category" id="">
+              <option value="5ef8636cd61ec32ac0e71990">Meat & Fishes</option>
+              <option value="5ef8638fd61ec32ac0e71996">Wine & Drinks</option>
+              <option value="5ef86351d61ec32ac0e71986">Vegetables & Fruits</option>
+              <option value="5ef86303d61ec32ac0e71960">Milk & Eggs</option>
+            </select>
+            <br><br>
+            <button class="btn btn-primary">Save</button>
+          </form>
+        </div>
+        <!-- /#sidebar-wrapper -->
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+          <nav class="navbar navbar-expand-sm navbar-light border-bottom">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <button class="btn btn-primary" id="menu-toggle">Toggle Cart</button>
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link" [class.active]="viewMode == 'all-products'" (click)="viewMode ='all-products'">All
+                    Products</a>
+                </li>
+                <li class="nav-item" *ngFor="let c of category">
+                  <a class="nav-link" [class.active]="viewMode == c?.categoryName" (click)="productsByCategory(c)">
+                    {{c?.categoryName}}
+                  </a>
+                </li>
+                <li class="nav-item active">
+                  <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
+                      (change)="searchProduct($event)">
+                    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+                  </form>
+                </li>
+              </ul>
+            </div>
+          </nav>
+          <br>
+          <div class="container-fluid">
+            <div class="row">
+              <div class="tab-slider--container col-auto" [ngSwitch]="viewMode">
+                <div class="tab-slider--body d-flex flex-row flex-wrap" *ngSwitchCase="'all-products'">
+                  <div class="card col-xl-2" *ngFor="let p of allProducts; let i = index" (click)="fillEditForm(p)">
+                    <div class="card-body">
+                      <img class="card-img-top" src="http://localhost:3000/{{p?.image}}" alt="Card image" width="100" height="85">
+                      <div>
+                        {{p?.productName}} 
+                        <p class="card-text">{{p?.price | json}}₪</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-slider--body d-flex flex-row flex-wrap" *ngSwitchCase="'Milk & Eggs'">
+                  <div class="card col-xl-2" *ngFor="let p of productsByCategoryArr" (click)="fillEditForm(p)">
+                    <div class="card-body">
+                      <img class="card-img-top" src="http://localhost:3000/{{p?.image}}" alt="Card image" width="100" height="85">
+                      <div>
+                        {{p?.productName}} 
+                        <p class="card-text">{{p?.price | json}}₪</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-slider--body d-flex flex-row flex-wrap" *ngSwitchCase="'Vegetables & Fruits'">
+                  <div class="card col-xl-2" *ngFor="let p of productsByCategoryArr" (click)="fillEditForm(p)">
+                    <div class="card-body">
+                      <img class="card-img-top" src="http://localhost:3000/{{p?.image}}" alt="Card image" width="100" height="85">
+                      <div>
+                        {{p?.productName}} 
+                        <p class="card-text">{{p?.price | json}}₪</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-slider--body d-flex flex-row flex-wrap" *ngSwitchCase="'Meat & Fishes'">
+                  <div class="card col-xl-2" *ngFor="let p of productsByCategoryArr" (click)="fillEditForm(p)">
+                    <div class="card-body">
+                      <img class="card-img-top" src="http://localhost:3000/{{p?.image}}" alt="Card image" width="100" height="85">
+                      <div>
+                        {{p?.productName}} 
+                        <p class="card-text">{{p?.price | json}}₪</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-slider--body d-flex flex-row flex-wrap" *ngSwitchCase="'Wine & Drinks'">
+                  <div class="card col-xl-2" *ngFor="let p of productsByCategoryArr" (click)="fillEditForm(p)">
+                    <div class="card-body">
+                      <img class="card-img-top" src="http://localhost:3000/{{p?.image}}" alt="Card image" width="100" height="85">
+                      <div>
+                        {{p?.productName}} 
+                        <p class="card-text">{{p?.price | json}}₪</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-slider--body d-flex flex-row flex-wrap" *ngSwitchCase="'search'">
+                  <div class="card col-xl-12" *ngFor="let p of productsByCategoryArr">
+                    <div class="card-body">
+                      <img class="card-img-top" src="http://localhost:3000/{{p?.image}}" alt="Card image" width="100" height="85">
+                      <div>
+                        {{p?.productName}} 
+                        <p class="card-text">{{p?.price | json}}₪</p>
+                      </div>
+                      <br>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+      </div>
+    </div>
+  </div>
+</div>

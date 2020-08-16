@@ -1,0 +1,78 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div id="sidebar-wrapper">
+        <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" [(ngModel)]="filter" [ngModelOptions]="{standalone: true}" type="search" placeholder="Search" aria-label="Search"
+            (change)="searchProduct($event)">
+            <!-- <input type="search" [(ngModel)]="filter" [ngModelOptions]="{standalone: true}"> -->
+          <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+        </form> <br>
+        <div class="sidebar-heading">My Cart</div>
+        <hr>
+        <a class="products" routerLink="/products">Back to shop</a>
+        <div *ngIf="searchMode == false">
+          <div class="list-group list-group-flush" *ngFor="let cartItem of cartArr">
+            <div class="list-group-item list-group-item-action"> {{cartItem?.productName}}, {{cartItem?.price}}₪
+              X{{cartItem.quantity}}
+            </div>
+          </div>
+        </div>
+        <div *ngIf="searchMode == true">
+          <div class="list-group list-group-flush" *ngFor="let cartItem of searchResult">
+            <div ngxTextHighlight [content]="cartItem?.productName" [searchTerm]="filter" [caseSensitive]="false">
+             <!-- {{cartItem?.productName}}, {{cartItem?.price}}₪
+              X{{cartItem.quantity}}  -->
+              <!-- <div [innerHTML]=" cartItem?.productName | highlight : filter"></div> -->
+              
+            </div>
+                <p [innerHTML]="highlight(cartItem?.productName)"></p>
+          </div>
+        </div>
+        <div>
+          <h5 class="text-danger">No changes permitted here!</h5>
+        </div>
+        <div class="total">Total: {{total}}₪</div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div id="sidebar-wrapper">
+
+        <div class="sidebar-heading">Order</div>
+        <hr>
+        <div class="sidebar-heading">Shipping Details</div>
+        <hr>
+        <form class="form" [formGroup]="this.orderForm" (ngSubmit)="performOrder()">
+
+        City: <input type="text" formControlName="city" class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f2.city.errors }" (focus)="setDetails()">
+        <div *ngIf="submitted && f2.city.errors" class="invalid-feedback">
+          <div *ngIf="f2.city.errors.required">City is required</div>
+      </div>
+      <br><br>
+        Street: <input type="text" formControlName="street" class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f2.street.errors }" (focus)="setDetails()">
+        <div *ngIf="submitted && f2.street.errors" class="invalid-feedback">
+          <div *ngIf="f2.street.errors.required">Street is required</div>
+        </div>
+        <br><br>
+        Shipping Day:<input type="date" formControlName="shippingDate" class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f2.shippingDate.errors }">
+        <div *ngIf="submitted && f2.shippingDate.errors" class="invalid-feedback">
+          <div *ngIf="f2.shippingDate.errors.required">Shipping Date is required</div>
+        </div><br><br>
+        
+        <div class="sidebar-heading">Payments:</div>
+        <hr>
+        Credit Card:<input type="text" formControlName="creditCard"  class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f2.creditCard.errors }">
+        <div *ngIf="submitted && f2.creditCard.errors" class="invalid-feedback">
+          <div *ngIf="f2.creditCard.errors.required">Credit Card is required</div>
+        </div> <br><br>
+        <button class="btn btn-primary">ORDER</button>
+
+        </form> <br>
+      </div>
+    </div>
+  </div>
