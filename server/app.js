@@ -18,6 +18,10 @@ server.use(expressSession({
     saveUninitialized: false,
     withCredentials: true
 }));
+
+let distDir = "./client/dist/";
+server.use(express.static(distDir));
+
 server.use(express.static("uploads"));
 server.use(express.json());
 server.use(bodyParser.json());
@@ -28,4 +32,5 @@ server.use("/api/products", productsController);
 server.use(fileUpload());
 server.use("/api/auth", authController);
 
-server.listen(3000, () => console.log("Listening on http://localhost:3000"));
+let port = process.env.PORT || 3000;
+server.listen(port, () => console.log("Listening on http://localhost:"+ port));

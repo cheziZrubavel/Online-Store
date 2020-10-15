@@ -78,7 +78,7 @@ router.post("/add-product", upload.single('image'), async (request, response) =>
     }
 });
 
-router.put("/edit-product",  upload.single('image'), async (request, response) => {
+router.put("/edit-product", upload.single('image'), async (request, response) => {
     try {
         let productData = new Product();
         productData._id = request.body.id;
