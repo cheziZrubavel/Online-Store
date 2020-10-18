@@ -25,11 +25,11 @@
             ],
             "styles": [
               "src/styles.css",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css"
+              "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js", 
-              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js",
               "node_modules/popper.js/dist/umd/popper.min.js"]
           },
           "configurations": {
